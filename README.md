@@ -18,6 +18,7 @@ This repository contains a well-structured, scalable, and highly available **AWS
 | Public Subnet          | `10.0.0.0/24`        | `10.0.1.0/24`        |
 | Private App Subnet     | `10.0.2.0/24`        | `10.0.3.0/24`        |
 | Private DB Subnet      | `10.0.4.0/24`        | `10.0.5.0/24`        |
+| Private Web Subnet     | `10.0.6.0/24`        | `10.0.7.0/24`        |
 
 ---
 
@@ -25,15 +26,17 @@ This repository contains a well-structured, scalable, and highly available **AWS
 
 ### 🔐 Networking
 - **Internet Gateway:** Enables internet access for resources in public subnets.
+- **Route 53:** Provides DNS resolution for the web application.
 - **NAT Gateway (Optional):** Allows private subnets to initiate outbound traffic to the internet.
 - **Route Tables:** Associated with public and private subnets accordingly.
 
 ### 📦 Compute
-- **Amazon EC2 Instances:** Hosts the application backend inside private subnets.
-- **Auto Scaling Group:** Maintains availability and scales the EC2 fleet based on load.
+- **Application Tier EC2 Instances:** Hosts the application backend inside private application subnets (10.0.2.0/24 and 10.0.3.0/24), managed by an Auto Scaling Group.
+- **Web Tier EC2 Instances:** Hosts the web serving layer inside private web subnets (10.0.6.0/24 and 10.0.7.0/24), managed by a separate Auto Scaling Group.
 
 ### ⚖️ Load Balancing
-- **Application Load Balancer (ALB):** Distributes incoming HTTP/S traffic to EC2 instances.
+- **Internet-facing Application Load Balancer (ALB):** Distributes incoming HTTP/S traffic from the internet to the Application Tier EC2 instances.
+- **Internal Application Load Balancer (ALB):** Distributes traffic from the Application Tier to the Web Tier EC2 instances.
 
 ### 💾 Database Layer
 - **Amazon RDS (Multi-AZ):**
