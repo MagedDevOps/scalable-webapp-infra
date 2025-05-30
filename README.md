@@ -51,7 +51,7 @@ This repository contains a well-structured, scalable, and highly available **AWS
 ![AWS SNS Configuration](diagram/AWS_SNS.png)
 
 ### Infrastructure Walkthrough Video
-[Watch Infrastructure Walkthrough on Google Drive](YOUR_GOOGLE_DRIVE_LINK_HERE)
+[Watch Infrastructure Walkthrough on Google Drive](https://drive.google.com/file/d/1NdcfrlFaVWm49I51JbtIS5DyvjzzUnI_/view?usp=sharing)
 
 ---
 
