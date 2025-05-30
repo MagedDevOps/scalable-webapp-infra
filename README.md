@@ -100,7 +100,7 @@ scalable-webapp-infra/
 
 ## 📷 Preview
 
-![Scalable AWS Web Application Architecture](diagram/labeled-architecture.png)
+![Scalable AWS Web Application Architecture](AutoScalingWebApp.jpg)
 
 ---
 
