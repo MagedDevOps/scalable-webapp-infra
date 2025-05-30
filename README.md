@@ -2,6 +2,57 @@
 
 This repository contains a well-structured, scalable, and highly available **AWS EC2-based web application architecture**. It includes both the **final PNG diagram with CIDR labels** and the **editable draw.io source file (XML format)**.
 
+## 📑 Table of Contents
+
+1. [Architecture Visualization](#-architecture-visualization)
+   - Infrastructure Diagram
+   - SNS Notification Setup
+   - Infrastructure Walkthrough Video
+
+2. [Components Overview](#-components-overview)
+   - Subnet Allocation
+   - Architecture Components
+   - Networking
+   - Compute
+   - Load Balancing
+   - Database Layer
+   - Bastion Host
+
+3. [Identity & Access Management](#-identity--access-management-iam)
+   - IAM Roles and Access
+
+4. [Monitoring & Logging](#-monitoring--logging)
+   - CloudWatch
+   - SNS Alerts
+
+5. [Admin Access Process](#-admin-access-process)
+
+6. [Repository Structure](#-repository-structure)
+
+7. [Infrastructure as Code (Terraform)](#-infrastructure-as-code-terraform)
+   - Key Terraform Components
+   - Deployment Steps
+   - Security Considerations
+
+8. [Best Practices](#-best-practices-followed)
+
+9. [Author Information](#-author)
+
+10. [Additional Notes](#-notes)
+
+---
+
+## 📸 Architecture Visualization
+
+### Infrastructure Diagram
+![Scalable AWS Web Application Architecture](diagram/AutoScalingWebApp.drawio.png)
+
+### SNS Notification Setup
+![AWS SNS Configuration](diagram/AWS_SNS.png)
+
+### Infrastructure Walkthrough Video
+[Watch Infrastructure Walkthrough](diagram/AWS_Infra.mkv)
+
 ---
 
 ## 🧩 Components Overview
@@ -81,11 +132,95 @@ This repository contains a well-structured, scalable, and highly available **AWS
 
 ## 📁 Repository Structure
 
+```
 scalable-webapp-infra/
 ├── diagram/
-│ ├── labeled-architecture.png # Final labeled AWS architecture diagram
-│ └── architecture-drawio.xml # Editable source file (draw.io format)
-├── README.md # This documentation
+│   ├── labeled-architecture.png    # Final labeled AWS architecture diagram
+│   ├── architecture-drawio.xml     # Editable source file (draw.io format)
+│   ├── AWS_SNS.png                 # SNS notification setup diagram
+│   └── AWS_Infra.mkv               # Infrastructure walkthrough video
+├── terraform/
+│   ├── main.tf                     # Main Terraform configuration
+│   ├── variables.tf                # Variable definitions
+│   ├── providers.tf                # Provider configurations
+│   └── terraform.tfvars            # Variable values (gitignored)
+└── README.md                       # This documentation
+```
+
+---
+
+## 🚀 Infrastructure as Code (Terraform)
+
+### Key Terraform Components
+
+1. **VPC and Networking**
+   - VPC with CIDR 10.0.0.0/16
+   - Public and private subnets across two AZs
+   - Internet Gateway and route tables
+   - Security groups for each tier
+
+2. **Load Balancers**
+   - Internet-facing ALB in public subnets
+   - Internal ALB in private subnets
+   - Target groups for app and web tiers
+   - Health checks and listeners
+
+3. **Auto Scaling Groups**
+   - App tier ASG in private app subnets
+   - Web tier ASG in private web subnets
+   - Launch templates with user data
+   - Scaling policies and health checks
+
+4. **Database**
+   - RDS Multi-AZ deployment
+   - Private subnet placement
+   - Security group rules
+   - Backup and maintenance windows
+
+5. **Monitoring and Alerts**
+   - CloudWatch alarms for:
+     - ALB latency
+     - EC2 CPU utilization
+     - RDS performance
+   - SNS topics and email subscriptions
+
+### Deployment Steps
+
+1. **Prerequisites**
+   ```bash
+   # Install Terraform
+   # Configure AWS credentials
+   # Create key pair in AWS Console
+   ```
+
+2. **Initialize Terraform**
+   ```bash
+   cd terraform
+   terraform init
+   ```
+
+3. **Review Changes**
+   ```bash
+   terraform plan
+   ```
+
+4. **Apply Infrastructure**
+   ```bash
+   terraform apply
+   ```
+
+5. **Verify Deployment**
+   - Check Route 53 DNS resolution
+   - Test application access
+   - Verify monitoring and alerts
+
+### Security Considerations
+
+- All sensitive data in `terraform.tfvars` is gitignored
+- Security groups follow least privilege principle
+- Private subnets for sensitive resources
+- Bastion host for secure access
+- IAM roles with minimal permissions
 
 ---
 
@@ -101,13 +236,6 @@ scalable-webapp-infra/
 
 ---
 
-## 📷 Preview
-
-![Scalable AWS Web Application Architecture](diagram/AutoScalingWebApp.drawio.png)
-
-
----
-
 ## ✍️ Author
 
 **Mohamed Maged**  
@@ -115,10 +243,10 @@ DevOps & Cloud Enthusiast
 [LinkedIn](https://www.linkedin.com/in/magedo)  
 [Email](mailto:mohamed.ibn.maged@gmail.com)
 
-
 ---
 
 ## 💡 Notes
 
 - You can open the XML file in [draw.io](https://draw.io) or [diagrams.net](https://app.diagrams.net) for further customization.
 - Feel free to fork this project and adapt it to your own infrastructure designs.
+- Remember to never commit sensitive information like passwords or API keys.
